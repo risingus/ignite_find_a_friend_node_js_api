@@ -25,7 +25,9 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
 
   try {
     const createOrgUseCase = makeCreateOrgUseCase()
-    await createOrgUseCase.execute(data)
+    const { org } = await createOrgUseCase.execute(data)
+
+    return reply.status(201).send({ org })
 
   } catch (error) {
     if (error instanceof OrgAlreadyExistsError) {
@@ -33,5 +35,5 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     }
   }
 
-  return reply.status(201).send()
+
 }
